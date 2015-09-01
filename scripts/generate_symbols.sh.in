@@ -1,0 +1,36 @@
+#!/bin/bash
+
+HPP_GUI="@CMAKE_INSTALL_PREFIX@/bin/hpp-gui"
+PLUGIN_DIR="@CMAKE_INSTALL_PREFIX@/lib/hpp-gui-plugins"
+LIB_DIR="@CMAKE_INSTALL_PREFIX@/lib"
+DUMP_SYMS="@CMAKE_INSTALL_PREFIX@/bin/dump_syms"
+
+SYMBOLS_DIR="@CMAKE_INSTALL_PREFIX@/var/breakpad/symbols"
+
+[ ! -d "SYMBOLS_DIR" ] && mkdir -p ${SYMBOLS_DIR}
+
+function generate_symbols {
+  _base=`basename $1`
+  _symbol_file=${SYMBOLS_DIR}/${_base}.sym
+  $DUMP_SYMS $1 > ${_symbol_file}
+  _file_info=$(head -n1 ${_symbol_file})
+  IFS=' ' read -a splitlist <<< "${_file_info}"
+  _dest_dir=${SYMBOLS_DIR}/${_base}/${splitlist[3]}
+  mkdir -p ${_dest_dir}
+  mv ${_symbol_file} ${_dest_dir}
+  echo "Generated ${_dest_dir}/${_base}.sym"
+  echo "===================================================="
+}
+
+generate_symbols ${HPP_GUI}
+
+for lib in ${PLUGIN_DIR}/*.so; do
+  generate_symbols ${lib}
+done
+
+for lib in ${LIB_DIR}/*.so; do
+  generate_symbols ${lib}
+done
+
+echo "To generate the call stack, run:"
+echo "minidump_stackwalk <dmp-file> ${SYMBOLS_DIR}"

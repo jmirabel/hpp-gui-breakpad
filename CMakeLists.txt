@@ -88,4 +88,6 @@ PKG_CONFIG_USE_DEPENDENCY(${PLUGIN_NAME} "hpp-gui")
 
 INSTALL(TARGETS ${PLUGIN_NAME} DESTINATION lib/hpp-gui-plugins)
 
+CONFIGURE_FILE (scripts/generate_symbols.sh.in scripts/generate_symbols.sh @ONLY)
+
 SETUP_PROJECT_FINALIZE()
