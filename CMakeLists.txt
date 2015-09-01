@@ -69,7 +69,7 @@ ADD_DEFINITIONS(-DQT_PLUGIN)
 ADD_DEFINITIONS(-DQT_SHARED)
 
 SET (${PLUGIN_NAME}_SOURCES
-  src/breakpad-plugin.cc
+  ${CMAKE_BINARY_DIR}/src/breakpad-plugin.cc
   )
 
 ADD_LIBRARY(${PLUGIN_NAME} SHARED ${${PLUGIN_NAME}_SOURCES}
@@ -88,6 +88,8 @@ PKG_CONFIG_USE_DEPENDENCY(${PLUGIN_NAME} "hpp-gui")
 
 INSTALL(TARGETS ${PLUGIN_NAME} DESTINATION lib/hpp-gui-plugins)
 
+SET (MINIDUMP_DIRECTORY "${CMAKE_INSTALL_PREFIX}/var/breakpad/minidump")
 CONFIGURE_FILE (scripts/generate_symbols.sh.in scripts/generate_symbols.sh @ONLY)
+CONFIGURE_FILE (src/breakpad-plugin.cc.in src/breakpad-plugin.cc @ONLY)
 
 SETUP_PROJECT_FINALIZE()

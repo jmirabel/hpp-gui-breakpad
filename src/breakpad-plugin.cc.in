@@ -37,8 +37,10 @@ bool BreakPadPlugin::dumpCallback(const google_breakpad::MinidumpDescriptor& des
 
 void BreakPadPlugin::init ()
 {
+  if (!QDir ("@MINIDUMP_DIRECTORY@").mkpath ("."))
+    throw std::ios_base::failure ("Could not create @MINIDUMP_DIRECTORY@");
   eh = new google_breakpad::ExceptionHandler (
-      google_breakpad::MinidumpDescriptor ("/tmp"),
+      google_breakpad::MinidumpDescriptor ("@MINIDUMP_DIRECTORY@"),
       NULL, BreakPadPlugin::dumpCallback, NULL, true, -1);
 }
 
