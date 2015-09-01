@@ -38,8 +38,10 @@ ADD_REQUIRED_DEPENDENCY("hpp-gui")
 ExternalProject_Add (google-breakpad
   DOWNLOAD_DIR ${CMAKE_BINARY_DIR}/google-breakpad
   SVN_REPOSITORY http://google-breakpad.googlecode.com/svn/trunk/
+  SVN_REVISION --revision r1498
+  UPDATE_COMMAND ""
   SOURCE_DIR ${CMAKE_BINARY_DIR}/google-breakpad
-  CONFIGURE_COMMAND ./configure --prefix=${CMAKE_INSTALL_PREFIX}
+  CONFIGURE_COMMAND ./configure --config-cache --prefix=${CMAKE_INSTALL_PREFIX}
   BUILD_COMMAND make
   BUILD_IN_SOURCE 1
   )
