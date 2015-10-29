@@ -2,12 +2,12 @@
 #define HPP_GUI_PLUGIN_BREAKPAD_PLUGIN_HH
 
 #include <client/linux/handler/exception_handler.h>
-#include <hpp/gui/plugin-interface.h>
+#include <hpp/gui/plugin-interface.hh>
 
-class BreakPadPlugin : public QObject, public PluginInterface
+class BreakPadPlugin : public QObject, public hpp::gui::PluginInterface
 {
   Q_OBJECT
-  Q_INTERFACES (PluginInterface)
+  Q_INTERFACES (hpp::gui::PluginInterface)
 
 public:
   explicit BreakPadPlugin ();
